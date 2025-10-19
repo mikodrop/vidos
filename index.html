@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Photo & Video Site — Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Мой фото/видео сайт</h1>
+    <p class="muted">Статический сайт для GitHub Pages. Загружайте файлы через сторонний хостинг (настройки ниже) или вставляйте ссылки.</p>
+  </header>
+
+  <main>
+    <section class="upload">
+      <h2>Добавить медиа</h2>
+      <div class="row">
+        <div class="box">
+          <label>Вставить ссылку (YouTube, Vimeo, direct image/video URL)</label>
+          <input id="urlInput" placeholder="https://..." />
+          <button id="addUrl">Добавить по ссылке</button>
+        </div>
+        <div class="box">
+          <label>Загрузить файл (клиент → сторонний хостинг)</label>
+          <input id="fileInput" type="file" accept="image/*,video/*" />
+          <div class="small">Если вы хотите загружать из браузера — настройте <code>config.js</code> для Cloudinary (или другой endpoint).</div>
+          <button id="uploadBtn">Загрузить</button>
+        </div>
+      </div>
+
+      <div class="dropzone" id="dropzone">Перетащите файлы сюда</div>
+    </section>
+
+    <section class="gallery">
+      <h2>Галерея</h2>
+      <div id="items" class="items"></div>
+      <div id="empty" class="muted">Галерея пуста — добавьте фото или видео.</div>
+    </section>
+
+    <section class="settings">
+      <h2>Настройки и инструкции</h2>
+      <p>Создайте файл <code>config.js</code> в той же папке (см. <code>config.sample.js</code>) и заполните:</p>
+      <ul>
+        <li><strong>CLOUDINARY_UPLOAD_URL</strong> — URL загрузки (пример: <code>https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/auto/upload</code>).</li>
+        <li><strong>UPLOAD_PRESET</strong> — unsigned upload preset в Cloudinary (если используете Cloudinary).</li>
+      </ul>
+      <p>Альтернатива: загружайте большие файлы на YouTube/Dropbox/Cloudinary и вставляйте прямую ссылку в поле выше.</p>
+    </section>
+  </main>
+
+  <footer>
+    <small>Генерируемо для GitHub Pages — статический фронтенд, без серверной части.</small>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
