@@ -4,51 +4,254 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профориентационный тест</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .question h3 {
+            color: #444;
+            margin-bottom: 15px;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            resize: vertical;
+        }
+        
+        textarea:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        
+        button:hover {
+            background: #5a6fd8;
+        }
+        
+        .results {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+            margin-top: 20px;
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .navigation {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Профориентационный тест</h1>
-            <p>Ответьте на 15 вопросов для получения персонализированных рекомендаций</p>
-        </header>
-
-        <div id="intro-screen" class="screen active">
-            <div class="intro-content">
-                <h2>Добро пожаловать!</h2>
-                <p>Этот тест поможет вам определить подходящие профессии на основе ваших интересов, навыков и предпочтений.</p>
-                <button id="start-btn" class="btn">Начать тест</button>
+        <h1>🧭 Профориентационный тест</h1>
+        
+        <div id="intro">
+            <p>Ответьте на 15 вопросов, чтобы получить рекомендации по выбору профессии.</p>
+            <div class="navigation">
+                <button onclick="startTest()">Начать тест</button>
             </div>
         </div>
-
-        <form id="test-form" class="screen">
-            <div id="questions-container">
-                <!-- Вопросы будут добавляться динамически -->
-            </div>
+        
+        <form id="testForm" class="hidden">
+            <div id="questionsContainer"></div>
             <div class="navigation">
-                <button type="button" id="prev-btn" class="btn secondary">Назад</button>
-                <button type="button" id="next-btn" class="btn">Далее</button>
-                <button type="submit" id="submit-btn" class="btn primary" style="display: none;">Отправить ответы</button>
+                <button type="button" onclick="prevQuestion()">Назад</button>
+                <button type="button" onclick="nextQuestion()">Далее</button>
+                <button type="button" id="submitBtn" class="hidden" onclick="showResults()">Получить результаты</button>
             </div>
         </form>
-
-        <div id="loading-screen" class="screen">
-            <div class="loading-content">
-                <div class="spinner"></div>
-                <h2>Анализируем ваши ответы...</h2>
-                <p>Это займет несколько секунд</p>
-            </div>
-        </div>
-
-        <div id="results-screen" class="screen">
-            <div class="results-content">
-                <h2>Результаты теста</h2>
-                <div id="results-text"></div>
-                <button id="restart-btn" class="btn">Пройти тест снова</button>
-            </div>
-        </div>
+        
+        <div id="results" class="hidden results"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const questions = [
+            "Какие школьные предметы вам нравятся больше всего и почему?",
+            "Опишите ваши любимые хобби и занятия в свободное время",
+            "Какие задачи или деятельность заставляют вас забыть о времени?",
+            "Что вам больше нравится: работать в команде или самостоятельно? Почему?",
+            "Опишите ситуацию, когда вы успешно решили сложную проблему",
+            "Какими навыками и способностями вы обладаете?",
+            "Как вы относитесь к рутинной работе?",
+            "Что для вас важно в будущей профессии (зарплата, карьера, интересные задачи)?",
+            "Опишите ваш идеальный рабочий день",
+            "Как вы справляетесь со стрессом и давлением?",
+            "Что вас мотивирует и вдохновляет?",
+            "Какие достижения в жизни вызывают у вас наибольшую гордость?",
+            "Как вы учитесь новому? Что вам помогает в обучении?",
+            "Опишите ваши сильные и слабые стороны",
+            "Кем вы видите себя через 5 лет?"
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function startTest() {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('testForm').classList.remove('hidden');
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = `question ${index === currentQuestion ? '' : 'hidden'}`;
+                questionDiv.innerHTML = `
+                    <h3>Вопрос ${index + 1} из ${questions.length}</h3>
+                    <p>${question}</p>
+                    <textarea oninput="saveAnswer(${index})" placeholder="Введите ваш ответ...">${answers[index] || ''}</textarea>
+                `;
+                container.appendChild(questionDiv);
+            });
+            
+            updateNavigation();
+        }
+
+        function saveAnswer(index) {
+            const textarea = document.querySelectorAll('textarea')[0];
+            answers[index] = textarea.value;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestions();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestions();
+            }
+        }
+
+        function updateNavigation() {
+            const submitBtn = document.getElementById('submitBtn');
+            if (currentQuestion === questions.length - 1) {
+                submitBtn.classList.remove('hidden');
+            } else {
+                submitBtn.classList.add('hidden');
+            }
+        }
+
+        function showResults() {
+            // Сохраняем последний ответ
+            const textarea = document.querySelectorAll('textarea')[0];
+            answers[currentQuestion] = textarea.value;
+            
+            document.getElementById('testForm').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            
+            const analysis = analyzeAnswers(answers);
+            document.getElementById('results').innerHTML = analysis;
+        }
+
+        function analyzeAnswers(answers) {
+            // Простой анализ на основе ключевых слов
+            const allText = answers.join(' ').toLowerCase();
+            
+            let result = "🎯 <strong>Результаты вашего профориентационного теста:</strong>\n\n";
+            
+            // Анализ интересов
+            if (allText.includes('программирование') || allText.includes('компьютер') || allText.includes('технологи')) {
+                result += "💻 <strong>IT-сфера</strong>\n";
+                result += "Вам могут подойти: разработчик, тестировщик, аналитик данных, специалист по кибербезопасности\n\n";
+            }
+            
+            if (allText.includes('медицина') || allText.includes('лечить') || allText.includes('помогать')) {
+                result += "🏥 <strong>Медицина и помощь</strong>\n";
+                result += "Вам могут подойти: врач, медсестра, психолог, социальный работник\n\n";
+            }
+            
+            if (allText.includes('учить') || allText.includes('объяснять') || allText.includes('преподава')) {
+                result += "📚 <strong>Образование</strong>\n";
+                result += "Вам могут подойти: учитель, преподаватель, тренер, репетитор\n\n";
+            }
+            
+            if (allText.includes('бизнес') || allText.includes('управление') || allText.includes('организац')) {
+                result += "💼 <strong>Бизнес и менеджмент</strong>\n";
+                result += "Вам могут подойти: менеджер, предприниматель, руководитель проекта\n\n";
+            }
+            
+            if (allText.includes('творч') || allText.includes('искусство') || allText.includes('дизайн')) {
+                result += "🎨 <strong>Творчество и искусство</strong>\n";
+                result += "Вам могут подойти: дизайнер, художник, копирайтер, архитектор\n\n";
+            }
+            
+            if (allText.includes('наука') || allText.includes('исследование') || allText.includes('эксперимент')) {
+                result += "🔬 <strong>Наука</strong>\n";
+                result += "Вам могут подойти: ученый, исследователь, лаборант, инженер\n\n";
+            }
+            
+            // Общие рекомендации
+            result += "💡 <strong>Общие рекомендации:</strong>\n";
+            result += "• Пройдите дополнительные профориентационные тесты\n";
+            result += "• Пообщайтесь с представителями интересующих профессий\n";
+            result += "• Попробуйте стажировки или волонтерство в разных сферах\n";
+            result += "• Развивайте навыки, которые требуются в выбранной области\n\n";
+            
+            result += "🌟 <strong>Помните:</strong> Выбор профессии - это важный шаг, но вы всегда можете изменить направление в будущем!";
+            
+            return result;
+        }
+    </script>
 </body>
 </html>
