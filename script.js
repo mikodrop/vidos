@@ -134,17 +134,26 @@ class ProfessionTest {
     }
 
     async analyzeWithDeepSeek() {
-        // В реальном приложении здесь будет вызов API DeepSeek
-        // Для демонстрации используем имитацию
-        
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Имитация анализа ответов
-                const analysis = this.generateAnalysis();
-                resolve(analysis);
-            }, 3000);
+    try {
+        // Netlify Function URL
+        const response = await fetch('/.netlify/functions/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                answers: this.answers 
+            }),
         });
+
+        const data = await response.json();
+        return data.analysis || this.generateFallbackAnalysis();
+        
+    } catch (error) {
+        console.error('Error:', error);
+        return this.generateFallbackAnalysis();
     }
+}
 
     generateAnalysis() {
         // Анализ на основе ключевых слов в ответах
