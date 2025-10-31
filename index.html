@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Тест по профориентации</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#7dd3fc;--muted:#cbd5e1}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#071029 0%, #071827 100%);color:var(--muted)}
+    .wrap{max-width:920px;margin:32px auto;padding:28px;background:rgba(255,255,255,0.02);border-radius:12px;box-shadow:0 6px 30px rgba(2,6,23,0.6)}
+    h1{color:#fff;margin:0 0 12px;font-size:22px}
+    p.lead{margin:0 0 18px;color:#9fb1c9}
+    .question{margin:12px 0}
+    textarea{width:100%;min-height:80px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.01);color:var(--muted);resize:vertical}
+    button{background:var(--accent);border:none;padding:10px 16px;border-radius:10px;font-weight:600;cursor:pointer}
+    button[disabled]{opacity:.5;cursor:not-allowed}
+    .result{margin-top:18px;padding:14px;background:rgba(0,0,0,0.25);border-radius:10px;color:#e6f6ff}
+    .small{font-size:13px;color:#9fb1c9}
+    .footer{margin-top:18px;font-size:13px;color:#94a3b8}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Тест по профориентации</h1>
+    <p class="lead">Ответьте развёрнуто на ~15 вопросов. После отправки ответы будут отправлены на сервер, который передаст их модели ChatGPT и вернёт персональные советы.</p>
+
+    <form id="quiz">
+      <div id="questions"></div>
+
+      <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+        <button id="submitBtn" type="submit">Отправить ответы</button>
+        <div id="status" class="small"></div>
+      </div>
+    </form>
+
+    <div id="result" class="result" style="display:none"></div>
+    <div class="footer">Важно: сервер хранит API-ключ OpenAI <strong>только</strong> на сервере — никогда не вставляйте ключ в клиентский код.</div>
+  </div>
+
+<script>
+// Список вопросов — можно править
+const QUESTIONS = [
+  '1) Расскажите о своём идеальном рабочем дне: какие задачи, график, взаимодействие с людьми?',
+  '2) Какие предметы или темы в школе/университете вызывают у вас наибольший интерес? Почему?',
+  '3) Какие навыки вы считаете у себя сильными? Примеры использования.',
+  '4) Какие навыки вы хотели бы развить в ближайшие 3 года?',
+  '5) Опишите три вещи, которые вам не нравятся в работе/учёбе.',
+  '6) Есть ли у вас хобби или проекты, которые вы бы хотели превратить в профессию? Опишите.',
+  '7) Как вы относитесь к риску и неопределённости в работе? Приведите пример.',
+  '8) Нравится ли вам работа в команде или вы предпочитаете самостоятельную работу? Почему?',
+  '9) Хотели бы вы работать с технологиями/данными/людьми/материалами? Уточните.',
+  '10) Готовы ли вы к переезду или частым командировкам? Почему/почему нет?',
+  '11) Оцените своё терпение и усидчивость по шкале 1–10 и объясните выбор.',
+  '12) Укажите пример вашей значимой достижения (даже не академической).',
+  '13) Какие рабочие условия для вас критичны (гибкий график, офис, зарплата и т. п.)?',
+  '14) Есть ли у вас ограничения (здоровье, семейные обстоятельства, время), которые влияют на выбор профессии?',
+  '15) Что вы ожидаете от карьерного роста через 5 лет? Конкретно.'
+];
+
+const qContainer = document.getElementById('questions');
+QUESTIONS.forEach((q,i)=>{
+  const div = document.createElement('div');div.className='question';
+  const label = document.createElement('label');label.innerHTML = `<strong>${q}</strong>`;
+  const ta = document.createElement('textarea');ta.name = `q${i+1}`;ta.required=true;ta.placeholder='Пишите развёрнутый ответ здесь...';
+  div.appendChild(label);div.appendChild(ta);qContainer.appendChild(div);
+});
+
+const form = document.getElementById('quiz');
+const submitBtn = document.getElementById('submitBtn');
+const status = document.getElementById('status');
+const resultBox = document.getElementById('result');
+
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  submitBtn.disabled = true;status.textContent='Отправка...';resultBox.style.display='none';
+  const answers = [];
+  for(let i=0;i<QUESTIONS.length;i++){
+    const val = (form[`q${i+1}`].value||'').trim();
+    answers.push({question:QUESTIONS[i], answer: val});
+  }
+
+  try{
+    const resp = await fetch('/api/analyze',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({answers})
+    });
+    if(!resp.ok){ throw new Error('Сервер вернул ' + resp.status); }
+    const json = await resp.json();
+    resultBox.style.display='block';
+    if(json.error){ resultBox.textContent = 'Ошибка: ' + json.error; }
+    else{ resultBox.innerHTML = '<h3>Персональные советы по профориентации</h3><div>' + (json.advice || JSON.stringify(json)) + '</div>'; }
+    status.textContent='Готово.';
+  }catch(err){
+    resultBox.style.display='block';resultBox.textContent = 'Ошибка: ' + err.message;status.textContent='Ошибка';
+  }finally{ submitBtn.disabled = false; }
+});
+</script>
+</body>
+</html>
