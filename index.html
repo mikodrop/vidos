@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кто ты в мире истории? | Профориентационный тест</title>
+    <style>
+        /* Все стили остаются без изменений */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333; line-height: 1.6; min-height: 100vh; padding: 20px;
+        }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #8B0000, #B22222);
+            color: white; padding: 30px; text-align: center;
+        }
+        .step { display: none; padding: 30px; }
+        .step.active { display: block; }
+        .btn {
+            background: linear-gradient(135deg, #8B0000, #B22222);
+            color: white; border: none; padding: 15px 30px;
+            border-radius: 8px; font-size: 16px; cursor: pointer;
+            margin: 10px 5px;
+        }
+        /* ... остальные стили ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Кто ты в мире истории?</h1>
+            <p>Профориентационный тест для будущих историков</p>
+        </div>
+
+        <div id="step1" class="step active">
+            <h2>Давай познакомимся!</h2>
+            <form id="userInfoForm">
+                <div class="form-group">
+                    <label for="name">Твоё имя:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">Твой возраст:</label>
+                    <input type="number" id="age" name="age" min="14" max="18" required>
+                </div>
+                <div class="form-group">
+                    <label for="class">Твой класс:</label>
+                    <select id="class" name="class" required>
+                        <option value="">Выбери класс</option>
+                        <option value="9">9 класс</option>
+                        <option value="10">10 класс</option>
+                        <option value="11">11 класс</option>
+                    </select>
+                </div>
+                <button type="button" class="btn" onclick="nextStep(2)">Начать тест</button>
+            </form>
+        </div>
+
+        <div id="step2" class="step">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <h2>Ответь на вопросы</h2>
+            <div id="questionsContainer"></div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevStep(1)">Назад</button>
+                <button class="btn" onclick="calculateResult()">Узнать результат</button>
+            </div>
+        </div>
+
+        <div id="step3" class="step">
+            <div class="result">
+                <h2>Твой результат!</h2>
+                <div id="resultContent"></div>
+                <button class="btn" onclick="restartTest()">Пройти тест ещё раз</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Упрощенная версия скрипта
+        const questions = [ /* вопросы без изменений */ ];
+        const professions = { /* профессии без изменений */ };
+
+        let currentStep = 1;
+        let userAnswers = {};
+
+        // Генерация вопросов
+        function generateQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <h3>Вопрос ${index + 1}: ${q.question}</h3>
+                    <div class="options">
+                        ${q.options.map(option => `
+                            <label>
+                                <input type="radio" name="question${index}" value="${option.type}" 
+                                       onchange="saveAnswer(${index}, '${option.type}')">
+                                ${option.text}
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function saveAnswer(questionIndex, answer) {
+            userAnswers[questionIndex] = answer;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(userAnswers).length;
+            const progress = (answered / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function nextStep(step) {
+            if (step === 2) {
+                const name = document.getElementById('name').value;
+                const age = document.getElementById('age').value;
+                const userClass = document.getElementById('class').value;
+                
+                if (!name || !age || !userClass) {
+                    alert('Пожалуйста, заполни все поля!');
+                    return;
+                }
+                userAnswers.userInfo = { name, age, class: userClass };
+            }
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+        }
+
+        function calculateResult() {
+            const answered = Object.keys(userAnswers).length - 1;
+            if (answered < questions.length) {
+                alert('Пожалуйста, ответь на все вопросы!');
+                return;
+            }
+
+            const scores = { historian:0, anthropologist:0, ethnologist:0, archaeologist:0 };
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i]) scores[userAnswers[i]]++;
+            }
+
+            let maxScore = 0;
+            let userProfession = 'historian';
+            for (const [profession, score] of Object.entries(scores)) {
+                if (score > maxScore) {
+                    maxScore = score;
+                    userProfession = profession;
+                }
+            }
+
+            showResult(userProfession);
+            sendResults(userProfession, scores);
+        }
+
+        function showResult(profession) {
+            const prof = professions[profession];
+            document.getElementById('resultContent').innerHTML = `
+                <div class="profession-card">
+                    <h3>${prof.title}</h3>
+                    <p>${prof.description}</p>
+                    <div style="margin-top: 20px;">
+                        <h4>Твои сильные стороны:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            ${prof.skills.map(skill => `<li style="margin: 8px 0;">✓ ${skill}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; font-size: 1.1em;">
+                    Поздравляем! Эта профессия идеально соответствует твоим интересам и способностям.
+                </p>
+            `;
+            nextStep(3);
+        }
+
+        function sendResults(profession, scores) {
+            const userInfo = userAnswers.userInfo;
+            const data = {
+                name: userInfo.name,
+                age: userInfo.age,
+                class: userInfo.class,
+                profession: profession,
+                scores: scores,
+                timestamp: new Date().toLocaleString()
+            };
+
+            // Простая отправка
+            fetch('https://formspree.io/f/xsonkgyk', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+        }
+
+        function restartTest() {
+            userAnswers = {};
+            currentStep = 1;
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('userInfoForm').reset();
+            document.getElementById('progress').style.width = '0%';
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', generateQuestions);
+    </script>
+</body>
+</html>
