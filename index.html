@@ -3,47 +3,590 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профориентационный тест</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Кто ты в мире истории? | Профориентационный тест</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8B0000, #B22222);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .step {
+            display: none;
+            padding: 30px;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #8B0000;
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #8B0000;
+        }
+
+        .question h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .options label {
+            display: block;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .options label:hover {
+            border-color: #8B0000;
+            background: #fff5f5;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #8B0000, #B22222);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .result {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .profession-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #8B0000, #B22222);
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .step {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>🧭 Профориентационный тест</h1>
-        
-        <div id="intro" class="screen active">
-            <p>Ответьте на 15 вопросов для получения персонализированных рекомендаций</p>
-            <button onclick="startTest()">Начать тест</button>
+        <div class="header">
+            <h1>Кто ты в мире истории?</h1>
+            <p>Профориентационный тест для будущих историков</p>
         </div>
 
-        <div id="test" class="screen">
-            <div class="progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
+        <!-- Шаг 1: Ввод данных -->
+        <div id="step1" class="step active">
+            <h2>Давай познакомимся!</h2>
+            <form id="userInfoForm">
+                <div class="form-group">
+                    <label for="name">Твоё имя:</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
-                <div id="progressText">Вопрос 1 из 15</div>
+                <div class="form-group">
+                    <label for="age">Твой возраст:</label>
+                    <input type="number" id="age" name="age" min="14" max="18" required>
+                </div>
+                <div class="form-group">
+                    <label for="class">Твой класс:</label>
+                    <select id="class" name="class" required>
+                        <option value="">Выбери класс</option>
+                        <option value="9">9 класс</option>
+                        <option value="10">10 класс</option>
+                        <option value="11">11 класс</option>
+                    </select>
+                </div>
+                <button type="button" class="btn" onclick="nextStep(2)">Начать тест</button>
+            </form>
+        </div>
+
+        <!-- Шаг 2: Вопросы теста -->
+        <div id="step2" class="step">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
             </div>
-            
-            <div id="questionContainer"></div>
-            
-            <div class="buttons">
-                <button onclick="prevQuestion()">Назад</button>
-                <button onclick="nextQuestion()">Далее</button>
-                <button id="submitBtn" onclick="submitTest()" style="display: none;">Получить результат</button>
+            <h2>Ответь на вопросы</h2>
+            <div id="questionsContainer">
+                <!-- Вопросы будут сгенерированы JavaScript -->
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevStep(1)">Назад</button>
+                <button class="btn" onclick="calculateResult()">Узнать результат</button>
             </div>
         </div>
 
-        <div id="loading" class="screen">
-            <div class="spinner"></div>
-            <p>Анализируем ваши ответы...</p>
-        </div>
-
-        <div id="results" class="screen">
-            <h2>Ваши результаты</h2>
-            <div id="resultsContent"></div>
-            <button onclick="restartTest()">Пройти ещё раз</button>
+        <!-- Шаг 3: Результат -->
+        <div id="step3" class="step">
+            <div class="result">
+                <h2>Твой результат!</h2>
+                <div id="resultContent">
+                    <!-- Результат будет сгенерирован JavaScript -->
+                </div>
+                <button class="btn" onclick="restartTest()">Пройти тест ещё раз</button>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Данные вопросов
+        const questions = [
+            {
+                question: "Что тебя больше привлекает в музее?",
+                options: [
+                    { text: "Старинные рукописи и указы", type: "historian" },
+                    { text: "Реконструкции облика древних людей", type: "anthropologist" },
+                    { text: "Национальные костюмы и украшения", type: "ethnologist" },
+                    { text: "Артефакты из древних гробниц", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Какой метод исследования тебе ближе?",
+                options: [
+                    { text: "Анализ документов в архиве", type: "historian" },
+                    { text: "Изучение антропологических находок", type: "anthropologist" },
+                    { text: "Полевые исследования традиций народов", type: "ethnologist" },
+                    { text: "Раскопки древних поселений", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Какая историческая задача кажется самой интересной?",
+                options: [
+                    { text: "Восстановить хронологию событий", type: "historian" },
+                    { text: "Изучить эволюцию человека", type: "anthropologist" },
+                    { text: "Сохранить исчезающие народные традиции", type: "ethnologist" },
+                    { text: "Найти потерянный древний город", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Где ты предпочитаешь работать?",
+                options: [
+                    { text: "В библиотеке или архиве", type: "historian" },
+                    { text: "В лаборатории с находками", type: "anthropologist" },
+                    { text: "В этнографических экспедициях", type: "ethnologist" },
+                    { text: "На археологических раскопках", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Что важнее для понимания истории?",
+                options: [
+                    { text: "Письменные источники", type: "historian" },
+                    { text: "Биологические останки", type: "anthropologist" },
+                    { text: "Устные предания", type: "ethnologist" },
+                    { text: "Вещественные доказательства", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Какой период истории тебя привлекает?",
+                options: [
+                    { text: "Эпоха великих цивилизаций", type: "historian" },
+                    { text: "Каменный век", type: "anthropologist" },
+                    { text: "Традиционные общества", type: "ethnologist" },
+                    { text: "Доисторические времена", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Что ты будешь делать с находкой?",
+                options: [
+                    { text: "Изучу её описание в каталогах", type: "historian" },
+                    { text: "Проведу антропологический анализ", type: "anthropologist" },
+                    { text: "Сравню с аналогичными в других культурах", type: "ethnologist" },
+                    { text: "Очищу и реконструирую", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Какой навык тебе важнее?",
+                options: [
+                    { text: "Аналитическое мышление", type: "historian" },
+                    { text: "Знание анатомии", type: "anthropologist" },
+                    { text: "Навыки межкультурного общения", type: "ethnologist" },
+                    { text: "Полевые исследовательские навыки", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Что вызывает у тебя больший интерес?",
+                options: [
+                    { text: "Политические процессы", type: "historian" },
+                    { text: "Биологическая эволюция", type: "anthropologist" },
+                    { text: "Культурные особенности", type: "ethnologist" },
+                    { text: "Материальная культура", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Где ты видишь себя через 10 лет?",
+                options: [
+                    { text: "Научным сотрудником в архиве", type: "historian" },
+                    { text: "Исследователем в антропологическом центре", type: "anthropologist" },
+                    { text: "Руководителем этнографических экспедиций", type: "ethnologist" },
+                    { text: "Начальником археологической экспедиции", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Какой предмет в школе нравится больше?",
+                options: [
+                    { text: "История", type: "historian" },
+                    { text: "Биология", type: "anthropologist" },
+                    { text: "География", type: "ethnologist" },
+                    { text: "Химия/Физика", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Что для тебя важнее в исследовании?",
+                options: [
+                    { text: "Точность и достоверность", type: "historian" },
+                    { text: "Научная новизна", type: "anthropologist" },
+                    { text: "Практическая значимость", type: "ethnologist" },
+                    { text: "Сенсационность открытия", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Как ты предпочитаешь работать?",
+                options: [
+                    { text: "В одиночку с документами", type: "historian" },
+                    { text: "В команде лаборатории", type: "anthropologist" },
+                    { text: "В полевых условиях с местными жителями", type: "ethnologist" },
+                    { text: "В экспедиционной группе", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Что тебе интереснее изучать?",
+                options: [
+                    { text: "Исторические личности", type: "historian" },
+                    { text: "Происхождение человечества", type: "anthropologist" },
+                    { text: "Народные обычаи", type: "ethnologist" },
+                    { text: "Древние технологии", type: "archaeologist" }
+                ]
+            },
+            {
+                question: "Какой результат работы тебя порадует?",
+                options: [
+                    { text: "Публикация научной статьи", type: "historian" },
+                    { text: "Открытие в области эволюции", type: "anthropologist" },
+                    { text: "Сохранение культурного наследия", type: "ethnologist" },
+                    { text: "Важная археологическая находка", type: "archaeologist" }
+                ]
+            }
+        ];
+
+        // Описания профессий
+        const professions = {
+            historian: {
+                title: "Историк-архивист (MG)",
+                description: "Ты - хранитель времени! Твоя стихия - архивы, библиотеки и документы. Ты умеешь читать между строк и восстанавливать картину прошлого по крупицам информации. Тебе подойдет работа в научных институтах, архивах и музеях.",
+                skills: ["Аналитическое мышление", "Внимание к деталям", "Работа с документами", "Научный подход"],
+                color: "#8B0000"
+            },
+            anthropologist: {
+                title: "Антрополог",
+                description: "Ты - исследователь человеческой сущности! Тебя интересует биологическая и культурная эволюция человека. Твои инструменты - анализ останков, реконструкция облика и изучение приматов. Тебя ждут в научных лабораториях и исследовательских центрах.",
+                skills: ["Научный анализ", "Лабораторные исследования", "Знание анатомии", "Системное мышление"],
+                color: "#228B22"
+            },
+            ethnologist: {
+                title: "Этнолог",
+                description: "Ты - посланник между культурами! Твоя миссия - сохранять и изучать традиции народов мира. Ты легко находишь общий язык с людьми разных культур и умеешь видеть красоту в разнообразии. Тебе дорога в этнографические музеи и полевые экспедиции.",
+                skills: ["Межкультурная коммуникация", "Наблюдательность", "Адаптивность", "Исследовательский подход"],
+                color: "#FF8C00"
+            },
+            archaeologist: {
+                title: "Археолог",
+                description: "Ты - искатель потерянных миров! Твои находки говорят сами за себя - от древних городов до бытовых предметов. Ты не боится тяжелой работы и готов к экспедициям в любую точку мира. Тебя ждут открытия на раскопках и в полевых исследованиях.",
+                skills: ["Полевые работы", "Анализ артефактов", "Физическая выносливость", "Терпение и внимательность"],
+                color: "#4B0082"
+            }
+        };
+
+        let currentStep = 1;
+        let userAnswers = {};
+
+        // Инициализация вопросов при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuestions();
+        });
+
+        function generateQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <h3>Вопрос ${index + 1}: ${q.question}</h3>
+                    <div class="options">
+                        ${q.options.map((option, optIndex) => `
+                            <label>
+                                <input type="radio" name="question${index}" value="${option.type}" 
+                                       onchange="saveAnswer(${index}, '${option.type}')">
+                                ${option.text}
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function saveAnswer(questionIndex, answer) {
+            userAnswers[questionIndex] = answer;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(userAnswers).length;
+            const progress = (answered / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function nextStep(step) {
+            if (step === 2) {
+                const name = document.getElementById('name').value;
+                const age = document.getElementById('age').value;
+                const userClass = document.getElementById('class').value;
+                
+                if (!name || !age || !userClass) {
+                    alert('Пожалуйста, заполни все поля!');
+                    return;
+                }
+                
+                userAnswers.userInfo = { name, age, class: userClass };
+            }
+            
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+        }
+
+        function calculateResult() {
+            const answered = Object.keys(userAnswers).length - 1; // минус userInfo
+            if (answered < questions.length) {
+                alert('Пожалуйста, ответь на все вопросы!');
+                return;
+            }
+
+            // Подсчет результатов
+            const scores = {
+                historian: 0,
+                anthropologist: 0,
+                ethnologist: 0,
+                archaeologist: 0
+            };
+
+            for (let i = 0; i < questions.length; i++) {
+                const answer = userAnswers[i];
+                if (answer) {
+                    scores[answer]++;
+                }
+            }
+
+            // Находим профессию с максимальным количеством баллов
+            let maxScore = 0;
+            let userProfession = 'historian';
+
+            for (const [profession, score] of Object.entries(scores)) {
+                if (score > maxScore) {
+                    maxScore = score;
+                    userProfession = profession;
+                }
+            }
+
+            showResult(userProfession);
+            sendResults(userProfession, scores);
+        }
+
+        function showResult(profession) {
+            const prof = professions[profession];
+            const resultDiv = document.getElementById('resultContent');
+            
+            resultDiv.innerHTML = `
+                <div class="profession-card" style="background: linear-gradient(135deg, ${prof.color}66, ${prof.color})">
+                    <h3>${prof.title}</h3>
+                    <p>${prof.description}</p>
+                    <div style="margin-top: 20px;">
+                        <h4>Твои сильные стороны:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            ${prof.skills.map(skill => `<li style="margin: 8px 0;">✓ ${skill}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; font-size: 1.1em;">
+                    Поздравляем! Эта профессия идеально соответствует твоим интересам и способностям.
+                </p>
+            `;
+
+            nextStep(3);
+        }
+
+        function sendResults(profession, scores) {
+            const formData = new FormData();
+            const userInfo = userAnswers.userInfo;
+            
+            // Добавляем данные пользователя
+            formData.append('name', userInfo.name);
+            formData.append('age', userInfo.age);
+            formData.append('class', userInfo.class);
+            formData.append('profession', profession);
+            formData.append('timestamp', new Date().toLocaleString());
+            
+            // Добавляем баллы
+            formData.append('historian_score', scores.historian);
+            formData.append('anthropologist_score', scores.anthropologist);
+            formData.append('ethnologist_score', scores.ethnologist);
+            formData.append('archaeologist_score', scores.archaeologist);
+            
+            // Отправка данных через Formspree
+           fetch('https://formspree.io/f/xsonkgyk', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                console.log('Data sent successfully');
+            }).catch(error => {
+                console.error('Error sending data:', error);
+            });
+        }
+
+        function restartTest() {
+            userAnswers = {};
+            currentStep = 1;
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('userInfoForm').reset();
+            document.getElementById('progress').style.width = '0%';
+            
+            // Сброс выбранных ответов
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => input.checked = false);
+        }
+    </script>
 </body>
 </html>
