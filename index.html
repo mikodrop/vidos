@@ -3,80 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Исторический компас | Найди свою профессию</title>
+    <title>Исторический компас |
+Найди свою профессию</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
-            padding: 0;
+padding: 0;
             box-sizing: border-box;
         }
 
         :root {
             --primary: #2c5530;
-            --primary-dark: #1e3e23;
+--primary-dark: #1e3e23;
             --secondary: #8b4513;
             --accent: #d4af37;
             --light: #f8f5f0;
             --dark: #2c2c2c;
             --text: #333333;
             --text-light: #666666;
-        }
+}
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8f5f0 0%, #e8e1d5 100%);
+background: linear-gradient(135deg, #f8f5f0 0%, #e8e1d5 100%);
             color: var(--text);
             line-height: 1.7;
             min-height: 100vh;
             padding: 20px;
             position: relative;
-        }
+}
 
         body::before {
             content: "";
-            position: fixed;
+position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            z-index: -1;
+background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 
+1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+z-index: -1;
         }
 
         .container {
             max-width: 900px;
-            margin: 0 auto;
+margin: 0 auto;
             background: white;
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             overflow: hidden;
             position: relative;
-            border: 1px solid rgba(212, 175, 55, 0.2);
+border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
+color: white;
             padding: 40px 30px;
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
+}
 
         .header::before {
             content: "";
-            position: absolute;
+position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
+background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
 
         .header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.8em;
+font-size: 2.8em;
             margin-bottom: 10px;
             font-weight: 700;
             position: relative;
@@ -84,7 +86,7 @@
 
         .header p {
             font-size: 1.2em;
-            opacity: 0.9;
+opacity: 0.9;
             max-width: 600px;
             margin: 0 auto;
             font-weight: 300;
@@ -92,26 +94,28 @@
 
         .step {
             display: none;
-            padding: 40px;
+padding: 40px;
             animation: fadeIn 0.5s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0;
+transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0);
+}
         }
 
         .step.active {
             display: block;
-        }
+}
 
         .form-group {
             margin-bottom: 25px;
-        }
+}
 
         label {
             display: block;
-            margin-bottom: 10px;
+margin-bottom: 10px;
             font-weight: 600;
             color: var(--dark);
             font-size: 1.1em;
@@ -121,84 +125,84 @@
         input[type="number"],
         select {
             width: 100%;
-            padding: 15px;
+padding: 15px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 16px;
             transition: all 0.3s;
             font-family: 'Inter', sans-serif;
-        }
+}
 
         input:focus,
         select:focus {
             outline: none;
-            border-color: var(--primary);
+border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(44, 85, 48, 0.1);
-        }
+}
 
         .question {
             background: var(--light);
-            padding: 25px;
+padding: 25px;
             border-radius: 15px;
             margin-bottom: 25px;
             border-left: 5px solid var(--accent);
             transition: transform 0.3s, box-shadow 0.3s;
-        }
+}
 
         .question:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
         .question h3 {
             margin-bottom: 20px;
-            color: var(--dark);
+color: var(--dark);
             font-size: 1.3em;
             font-weight: 600;
         }
 
         .options label {
             display: block;
-            padding: 18px 20px;
+padding: 18px 20px;
             margin: 12px 0;
             background: white;
             border: 2px solid #e9ecef;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s;
-            font-weight: 400;
+font-weight: 400;
             position: relative;
             overflow: hidden;
         }
 
         .options label::before {
             content: "";
-            position: absolute;
+position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
-            transition: left 0.5s;
+transition: left 0.5s;
         }
 
         .options label:hover::before {
             left: 100%;
-        }
+}
 
         .options label:hover {
             border-color: var(--accent);
-            background: #fffdf5;
+background: #fffdf5;
         }
 
         .options input[type="radio"] {
             margin-right: 15px;
-            transform: scale(1.2);
+transform: scale(1.2);
         }
 
         .btn {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
+color: white;
             border: none;
             padding: 18px 35px;
             border-radius: 12px;
@@ -206,100 +210,100 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin: 10px 5px;
+margin: 10px 5px;
             box-shadow: 0 5px 15px rgba(44, 85, 48, 0.2);
             position: relative;
             overflow: hidden;
-        }
+}
 
         .btn::after {
             content: "";
-            position: absolute;
+position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.5s;
-        }
+}
 
         .btn:hover::after {
             left: 100%;
-        }
+}
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(44, 85, 48, 0.3);
+box-shadow: 0 8px 20px rgba(44, 85, 48, 0.3);
         }
 
         .btn-secondary {
             background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-        }
+}
 
         .btn-accent {
             background: linear-gradient(135deg, var(--accent) 0%, #c19b2e 100%);
-            color: var(--dark);
+color: var(--dark);
         }
 
         .navigation {
             display: flex;
-            justify-content: space-between;
+justify-content: space-between;
             margin-top: 40px;
             padding-top: 20px;
             border-top: 1px solid #eee;
-        }
+}
 
         .result {
             text-align: center;
-            padding: 30px;
+padding: 30px;
         }
 
         .profession-card {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
+color: white;
             padding: 40px;
             border-radius: 20px;
             margin: 30px 0;
             box-shadow: 0 15px 30px rgba(0,0,0,0.15);
             position: relative;
             overflow: hidden;
-        }
+}
 
         .profession-card::before {
             content: "";
-            position: absolute;
+position: absolute;
             top: -50%;
             right: -50%;
             width: 100%;
             height: 100%;
             background: rgba(255,255,255,0.1);
             transform: rotate(30deg);
-        }
+}
 
         .profession-icon {
             font-size: 4em;
-            margin-bottom: 20px;
+margin-bottom: 20px;
             display: block;
         }
 
         .profession-card h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2em;
+font-size: 2.2em;
             margin-bottom: 15px;
         }
 
         .profession-card p {
             font-size: 1.2em;
-            line-height: 1.8;
+line-height: 1.8;
             margin-bottom: 25px;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-        }
+}
 
         .skills {
             display: flex;
-            flex-wrap: wrap;
+flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
             margin-top: 25px;
@@ -307,7 +311,7 @@
 
         .skill {
             background: rgba(255,255,255,0.2);
-            padding: 12px 20px;
+padding: 12px 20px;
             border-radius: 50px;
             font-size: 0.9em;
             backdrop-filter: blur(10px);
@@ -315,32 +319,32 @@
 
         .hidden {
             display: none;
-        }
+}
 
         .progress-container {
             margin-bottom: 30px;
-        }
+}
 
         .progress-bar {
             height: 8px;
-            background: #e9ecef;
+background: #e9ecef;
             border-radius: 10px;
             margin-bottom: 10px;
             overflow: hidden;
             position: relative;
-        }
+}
 
         .progress {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+background: linear-gradient(90deg, var(--primary), var(--accent));
             transition: width 0.5s ease;
             width: 0%;
             position: relative;
-        }
+}
 
         .progress-text {
             display: flex;
-            justify-content: space-between;
+justify-content: space-between;
             font-size: 0.9em;
             color: var(--text-light);
             font-weight: 500;
@@ -348,7 +352,7 @@
 
         .floating-icon {
             position: absolute;
-            font-size: 1.5em;
+font-size: 1.5em;
             opacity: 0.1;
             z-index: 0;
         }
@@ -356,29 +360,29 @@
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
-                border-radius: 15px;
+border-radius: 15px;
             }
             
             .header h1 {
                 font-size: 2.2em;
-            }
+}
             
             .step {
                 padding: 25px;
-            }
+}
             
             .profession-card {
                 padding: 25px;
-            }
+}
             
             .navigation {
                 flex-direction: column;
-                gap: 15px;
+gap: 15px;
             }
             
             .btn {
                 width: 100%;
-                margin: 5px 0;
+margin: 5px 0;
             }
         }
     </style>
@@ -390,68 +394,75 @@
             <p>Найди свой путь в мире исторических наук</p>
         </div>
 
-        <!-- Шаг 1: Ввод данных -->
         <div id="step1" class="step active">
-            <h2>Давай познакомимся!</h2>
+        
+<h2>Давай познакомимся!</h2>
             <p style="margin-bottom: 25px; color: var(--text-light);">Пройди тест и узнай, какая историческая профессия тебе подходит больше всего</p>
             
             <form id="userInfoForm">
                 <div class="form-group">
                     <label for="name">Твоё имя:</label>
-                    <input type="text" id="name" name="name" placeholder="Как тебя зовут?" required>
+     
+<input type="text" id="name" name="name" placeholder="Как тебя зовут?"
+required>
                 </div>
                 <div class="form-group">
                     <label for="age">Твой возраст:</label>
-                    <input type="number" id="age" name="age" min="14" max="18" placeholder="Сколько тебе лет?" required>
+                    <input type="number" id="age" name="age" min="14" max="18" placeholder="Сколько тебе лет?"
+required>
                 </div>
                 <div class="form-group">
                     <label for="class">Твой класс:</label>
                     <select id="class" name="class" required>
-                        <option value="">Выбери класс</option>
+                      
+<option value="">Выбери класс</option>
                         <option value="9">9 класс</option>
                         <option value="10">10 класс</option>
                         <option value="11">11 класс</option>
-                    </select>
+                  
+</select>
                 </div>
                 <button type="button" class="btn" onclick="nextStep(2)">Начать путешествие</button>
             </form>
         </div>
 
-        <!-- Шаг 2: Вопросы теста -->
         <div id="step2" class="step">
             <div class="progress-container">
-                <div class="progress-bar">
+      
+<div class="progress-bar">
                     <div class="progress" id="progress"></div>
                 </div>
                 <div class="progress-text">
                     <span>Прогресс</span>
-                    <span id="progressPercent">0%</span>
+              
+<span id="progressPercent">0%</span>
                 </div>
             </div>
             
             <h2>Ответь на вопросы</h2>
-            <p style="margin-bottom: 25px; color: var(--text-light);">Выбери вариант, который больше всего соответствует твоим интересам</p>
+            <p style="margin-bottom: 25px;
+color: var(--text-light);">Выбери вариант, который больше всего соответствует твоим интересам</p>
             
             <div id="questionsContainer">
-                <!-- Вопросы будут сгенерированы JavaScript -->
-            </div>
+                </div>
             
             <div class="navigation">
-                <button class="btn btn-secondary" onclick="prevStep(1)">Назад</button>
+         
+<button class="btn btn-secondary" onclick="prevStep(1)">Назад</button>
                 <button class="btn" onclick="calculateResult()">Узнать результат</button>
             </div>
         </div>
 
-        <!-- Шаг 3: Результат -->
         <div id="step3" class="step">
             <div class="result">
-                <h2>Твой исторический профиль!</h2>
+                
+<h2>Твой исторический профиль!</h2>
                 <div id="resultContent">
-                    <!-- Результат будет сгенерирован JavaScript -->
-                </div>
+                    </div>
                 <button class="btn btn-accent" onclick="restartTest()">Пройти тест ещё раз</button>
             </div>
-        </div>
+      
+</div>
     </div>
 
     <script>
@@ -460,166 +471,203 @@
             {
                 question: "Какой способ изучения прошлого тебе ближе?",
                 options: [
-                    { text: "Работа с архивными документами и рукописями", type: "historian" },
+                 
+    { text: "Работа с архивными документами и рукописями", type: "historian" },
                     { text: "Анализ древних артефактов и материальной культуры", type: "archaeologist" },
                     { text: "Изучение традиций, обрядов и культурных особенностей", type: "ethnologist" },
-                    { text: "Исследование биологических останков и эволюции человека", type: "anthropologist" }
+                    { text: "Исследование биологических останков и эволюции 
+человека", type: "anthropologist" }
                 ]
             },
             {
                 question: "Что тебя больше привлекает в историческом фильме?",
                 options: [
-                    { text: "Точное воспроизведение исторических событий и деталей", type: "historian" },
+                 
+    { text: "Точное воспроизведение исторических событий и деталей", type: "historian" },
                     { text: "Древние сооружения и технологии прошлого", type: "archaeologist" },
                     { text: "Особенности быта, костюмов и традиций разных эпох", type: "ethnologist" },
-                    { text: "Эволюция человеческого общества и мышления", type: "anthropologist" }
+                    { text: "Эволюция человеческого общества и мышления", 
+type: "anthropologist" }
                 ]
             },
             {
                 question: "Какую историческую загадку тебе хотелось бы разгадать?",
                 options: [
-                    { text: "Расшифровать древний манускрипт или надпись", type: "historian" },
+                  
+    { text: "Расшифровать древний манускрипт или надпись", type: "historian" },
                     { text: "Найти потерянный город или цивилизацию", type: "archaeologist" },
                     { text: "Понять смысл забытого ритуала или обычая", type: "ethnologist" },
                     { text: "Выяснить пути миграции древних народов", type: "anthropologist" }
+ 
                 ]
             },
             {
                 question: "Какой музейный экспонат вызвал бы у тебя наибольший интерес?",
                 options: [
-                    { text: "Личный дневник исторической личности", type: "historian" },
+                   
+  { text: "Личный дневник исторической личности", type: "historian" },
                     { text: "Древнее оружие или орудия труда", type: "archaeologist" },
                     { text: "Традиционный национальный костюм", type: "ethnologist" },
                     { text: "Реконструкция внешности древнего человека", type: "anthropologist" }
-                ]
+       
+          ]
             },
             {
                 question: "Какой навык тебе хотелось бы развить в первую очередь?",
                 options: [
-                    { text: "Критический анализ текстов и источников", type: "historian" },
+                    { text: "Критический анализ текстов 
+и источников", type: "historian" },
                     { text: "Полевые методы исследования и раскопок", type: "archaeologist" },
                     { text: "Навыки межкультурной коммуникации", type: "ethnologist" },
                     { text: "Лабораторный анализ биологических материалов", type: "anthropologist" }
-                ]
+            
+    ]
             },
             {
                 question: "Какой период истории тебя больше всего привлекает?",
                 options: [
                     { text: "Эпоха великих империй и государств", type: "historian" },
-                    { text: "Доисторические времена и древние цивилизации", type: "archaeologist" },
+   
+                  { text: "Доисторические времена и древние цивилизации", type: "archaeologist" },
                     { text: "Период формирования народов и культур", type: "ethnologist" },
                     { text: "Каменный век и зарождение человечества", type: "anthropologist" }
-                ]
+                
+]
             },
             {
                 question: "Что для тебя важнее в историческом исследовании?",
                 options: [
                     { text: "Точность фактов и достоверность источников", type: "historian" },
-                    { text: "Вещественные доказательства и артефакты", type: "archaeologist" },
+       
+              { text: "Вещественные доказательства и артефакты", type: "archaeologist" },
                     { text: "Сохранение культурного наследия", type: "ethnologist" },
                     { text: "Понимание биологических основ человечества", type: "anthropologist" }
                 ]
-            },
+        
+    },
             {
                 question: "Где ты предпочитаешь проводить исследования?",
                 options: [
                     { text: "В библиотеках и архивах", type: "historian" },
-                    { text: "На археологических раскопках", type: "archaeologist" },
+                  
+    { text: "На археологических раскопках", type: "archaeologist" },
                     { text: "В этнографических экспедициях", type: "ethnologist" },
                     { text: "В научных лабораториях", type: "anthropologist" }
                 ]
             },
-            {
+         
+    {
                 question: "Какой тип исторических источников тебе интереснее?",
                 options: [
                     { text: "Письменные документы и летописи", type: "historian" },
                     { text: "Археологические находки и памятники", type: "archaeologist" },
-                    { text: "Устные предания и фольклор", type: "ethnologist" },
+  
+                   { text: "Устные предания и фольклор", type: "ethnologist" },
                     { text: "Антропологические материалы и останки", type: "anthropologist" }
                 ]
             },
             {
-                question: "Что тебе больше нравится делать в свободное время?",
+      
+           question: "Что тебе больше нравится делать в свободное время?",
                 options: [
                     { text: "Читать историческую литературу", type: "historian" },
                     { text: "Посещать исторические места и музеи", type: "archaeologist" },
-                    { text: "Изучать традиции разных народов", type: "ethnologist" },
+         
+            { text: "Изучать традиции разных народов", type: "ethnologist" },
                     { text: "Интересоваться происхождением человека", type: "anthropologist" }
                 ]
             },
             {
-                question: "Какой школьный предмет тебе наиболее интересен?",
+              
+    question: "Какой школьный предмет тебе наиболее интересен?",
                 options: [
                     { text: "История", type: "historian" },
                     { text: "География", type: "archaeologist" },
-                    { text: "Обществознание", type: "ethnologist" },
+                    { text: "Обществознание", type: "ethnologist" 
+},
                     { text: "Биология", type: "anthropologist" }
                 ]
             },
             {
                 question: "Какой результат работы был бы для тебя самым ценным?",
-                options: [
+          
+        options: [
                     { text: "Написание научной работы или книги", type: "historian" },
                     { text: "Важное археологическое открытие", type: "archaeologist" },
                     { text: "Сохранение исчезающей культурной традиции", type: "ethnologist" },
-                    { text: "Новое знание о человеческой эволюции", type: "anthropologist" }
+         
+            { text: "Новое знание о человеческой эволюции", type: "anthropologist" }
                 ]
             },
             {
                 question: "Как ты предпочитаешь работать?",
                 options: [
-                    { text: "Самостоятельно, углубляясь в детали", type: "historian" },
+   
+                  { text: "Самостоятельно, углубляясь в детали", type: "historian" },
                     { text: "В команде на полевых исследованиях", type: "archaeologist" },
                     { text: "В общении с носителями культуры", type: "ethnologist" },
-                    { text: "Сосредоточенно в лабораторных условиях", type: "anthropologist" }
+                 
+    { text: "Сосредоточенно в лабораторных условиях", type: "anthropologist" }
                 ]
             },
             {
                 question: "Что для тебя важнее в исторической науке?",
                 options: [
-                    { text: "Восстановление объективной картины прошлого", type: "historian" },
+         
+            { text: "Восстановление объективной картины прошлого", type: "historian" },
                     { text: "Материальные свидетельства древности", type: "archaeologist" },
                     { text: "Понимание культурного разнообразия", type: "ethnologist" },
-                    { text: "Изучение биологической истории человечества", type: "anthropologist" }
+                    { text: "Изучение биологической истории человечества", type: 
+"anthropologist" }
                 ]
             },
             {
                 question: "Кем ты видишь себя через 10 лет?",
                 options: [
-                    { text: "Научным сотрудником в архиве или институте", type: "historian" },
+                   
+  { text: "Научным сотрудником в архиве или институте", type: "historian" },
                     { text: "Руководителем археологических экспедиций", type: "archaeologist" },
                     { text: "Исследователем традиционных культур", type: "ethnologist" },
                     { text: "Специалистом в области эволюции человека", type: "anthropologist" }
-                ]
+      
+          ]
             }
         ];
-
-        // Улучшенные описания профессий
+// Улучшенные описания профессий
         const professions = {
             historian: {
                 title: "Историк-архивист",
                 description: "Ты — хранитель времени, детектив прошлого. Твоё призвание — работа с документами, архивами, летописями. Ты умеешь читать между строк, восстанавливать хронологию событий и анализировать причинно-следственные связи. Тебя ждут в научно-исследовательских институтах, архивах, музеях и университетах.",
-                skills: ["Аналитическое мышление", "Работа с документами", "Критический анализ", "Системный подход", "Внимание к деталям"],
+     
+            skills: ["Аналитическое мышление", "Работа с документами", "Критический анализ", "Системный подход", "Внимание к деталям"],
                 icon: "📜",
                 color: "#2c5530"
             },
             archaeologist: {
                 title: "Археолог",
+ 
                 description: "Ты — искатель утраченных миров, путешественник во времени. Твои инструменты — лопата, кисть и знания. Ты восстанавливаешь историю по материальным свидетельствам: от древних городов до бытовых предметов. Тебя ждут экспедиции, открытия и работа с артефактами в музеях и научных центрах.",
                 skills: ["Полевые исследования", "Анализ артефактов", "Терпение", "Физическая выносливость", "Визуальное мышление"],
                 icon: "⛏️",
-                color: "#8b4513"
+   
+              color: "#8b4513"
             },
             ethnologist: {
                 title: "Этнолог",
-                description: "Ты — посланник между культурами, исследователь человеческого разнообразия. Твоя миссия — изучать и сохранять традиции, обряды, верования и образ жизни разных народов. Ты легко находишь общий язык с людьми и видишь красоту в культурных различиях. Тебя ждут экспедиции, музеи и культурные центры.",
+                description: "Ты — посланник между культурами, исследователь человеческого разнообразия.
+Твоя миссия — изучать и сохранять традиции, обряды, верования и образ жизни разных народов.
+Ты легко находишь общий язык с людьми и видишь красоту в культурных различиях.
+Тебя ждут экспедиции, музеи и культурные центры.",
                 skills: ["Межкультурная коммуникация", "Наблюдательность", "Адаптивность", "Эмпатия", "Исследовательский подход"],
                 icon: "🌍",
                 color: "#d4af37"
             },
             anthropologist: {
-                title: "Антрополог",
-                description: "Ты — исследователь человеческой сущности, учёный, изучающий биологическую и культурную эволюцию человека. Твои методы — анализ останков, реконструкция облика, изучение приматов. Ты стремишься понять, как формировался современный человек. Тебя ждут в научных лабораториях, исследовательских центрах и университетах.",
+            
+    title: "Антрополог",
+                description: "Ты — исследователь человеческой сущности, учёный, изучающий биологическую и культурную эволюцию человека.
+Твои методы — анализ останков, реконструкция облика, изучение приматов. Ты стремишься понять, как формировался современный человек.
+Тебя ждут в научных лабораториях, исследовательских центрах и университетах.",
                 skills: ["Научный анализ", "Лабораторные исследования", "Системное мышление", "Знание анатомии", "Междисциплинарный подход"],
                 icon: "🦴",
                 color: "#5d4037"
@@ -627,6 +675,7 @@
         };
 
         let currentStep = 1;
+ 
         let userAnswers = {};
 
         // Инициализация вопросов при загрузке
@@ -637,125 +686,98 @@
 
         function addFloatingIcons() {
             const icons = ['📜', '⛏️', '🌍', '🦴', '🏛️', '🔍', '🗿', '📚'];
-            const container = document.querySelector('.container');
+    
+         const container = document.querySelector('.container');
             
             for (let i = 0; i < 12; i++) {
                 const icon = document.createElement('div');
                 icon.className = 'floating-icon';
-                icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+                icon.textContent = icons[Math.floor(Math.random() 
+* icons.length)];
                 icon.style.top = Math.random() * 100 + '%';
                 icon.style.left = Math.random() * 100 + '%';
-                icon.style.fontSize = (Math.random() * 1 + 1) + 'em';
+icon.style.fontSize = (Math.random() * 1 + 1) + 'em';
                 container.appendChild(icon);
-            }
+}
         }
 
         function generateQuestions() {
             const container = document.getElementById('questionsContainer');
-            container.innerHTML = '';
+container.innerHTML = '';
 
             questions.forEach((q, index) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question';
                 questionDiv.innerHTML = `
                     <h3>Вопрос ${index + 1}: ${q.question}</h3>
-                    <div class="options">
+               
+     <div class="options">
                         ${q.options.map((option, optIndex) => `
                             <label>
                                 <input type="radio" name="question${index}" value="${option.type}" 
-                                       onchange="saveAnswer(${index}, '${option.type}')">
+   
+                                     onchange="saveAnswer(${index}, '${option.type}')">
                                 ${option.text}
                             </label>
-                        `).join('')}
+   
+                     `).join('')}
                     </div>
                 `;
                 container.appendChild(questionDiv);
             });
-        }
+}
 
         function saveAnswer(questionIndex, answer) {
             userAnswers[questionIndex] = answer;
-            updateProgress();
+updateProgress();
         }
 
         function updateProgress() {
             const answered = Object.keys(userAnswers).length;
-            const progress = (answered / questions.length) * 100;
+const progress = (answered / questions.length) * 100;
             document.getElementById('progress').style.width = `${progress}%`;
             document.getElementById('progressPercent').textContent = `${Math.round(progress)}%`;
-        }
+}
 
         function nextStep(step) {
             if (step === 2) {
                 const name = document.getElementById('name').value;
-                const age = document.getElementById('age').value;
+const age = document.getElementById('age').value;
                 const userClass = document.getElementById('class').value;
                 
                 if (!name || !age || !userClass) {
                     alert('Пожалуйста, заполни все поля!');
-                    return;
+return;
                 }
                 
                 userAnswers.userInfo = { name, age, class: userClass };
-            }
+}
             
             document.getElementById(`step${currentStep}`).classList.remove('active');
-            currentStep = step;
+currentStep = step;
             document.getElementById(`step${currentStep}`).classList.add('active');
         }
 
         function prevStep(step) {
             document.getElementById(`step${currentStep}`).classList.remove('active');
-            currentStep = step;
+currentStep = step;
             document.getElementById(`step${currentStep}`).classList.add('active');
         }
-
-        function calculateResult() {
-            const answered = Object.keys(userAnswers).length - 1; // минус userInfo
-            if (answered < questions.length) {
-                alert('Пожалуйста, ответь на все вопросы!');
-                return;
-            }
-
-            // Подсчет результатов
-            const scores = {
-                historian: 0,
-                archaeologist: 0,
-                ethnologist: 0,
-                anthropologist: 0
-            };
-
-            for (let i = 0; i < questions.length; i++) {
-                const answer = userAnswers[i];
-                if (answer) {
-                    scores[answer]++;
-                }
-            }
-
-            // Находим профессию с максимальным количеством баллов
-            let maxScore = 0;
-            let userProfession = 'historian';
-
-            for (const [profession, score] of Object.entries(scores)) {
-                if (score > maxScore) {
-                    maxScore = score;
-                    userProfession = profession;
-                }
-            }
-
-            function showResult(profession) {
+        
+        // --- ИСПРАВЛЕННАЯ ФУНКЦИЯ ДЛЯ ПОКАЗА РЕЗУЛЬТАТА ---
+        function showResult(profession) {
             const prof = professions[profession];
             const resultDiv = document.getElementById('resultContent');
             const userInfo = userAnswers.userInfo;
             
             // --- НАЧАЛО БЛОКА ОТПРАВКИ В TELEGRAM ---
             
-            // Я ПОМЕНЯЛ ИХ МЕСТАМИ, ТЕПЕРЬ ПРАВИЛЬНО:
+            // Токен и ID прописаны правильно
             const botToken = "8325349241:AAGad3trKISzDLB2Jgg_9MQbjdUa59QUsiM"; 
             const chatId = "946055184"; 
 
-            // ВАЖНО: Тут добавлены обратные кавычки 
-            const message = 
+            // ИСПРАВЛЕНО: Теперь с обратными кавычками (` `) для шаблонной строки
+            const message = `
 🔔 <b>Новый результат теста!</b>
 
 👤 <b>Имя:</b> ${userInfo.name}
@@ -763,23 +785,23 @@
 🎓 <b>Класс:</b> ${userInfo.class}
 
 🏆 <b>Профессия:</b> ${prof.title}
-.trim();
+`.trim();
 
-            // ВАЖНО: Тут тоже добавлены обратные кавычки 
-            const url = https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=html;
+            // ИСПРАВЛЕНО: Теперь с обратными кавычками (` `) для URL
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=html`;
 
             fetch(url).catch(err => console.error("Ошибка отправки в Telegram:", err));
 
             // --- КОНЕЦ БЛОКА ОТПРАВКИ ---
 
-            // ВАЖНО: И здесь добавлены обратные кавычки 
-            resultDiv.innerHTML = 
+            // ИСПРАВЛЕНО: Теперь с обратными кавычками (` `) для HTML
+            resultDiv.innerHTML = `
                 <div class="profession-card" style="background: linear-gradient(135deg, ${prof.color}66, ${prof.color})">
                     <span class="profession-icon">${prof.icon}</span>
                     <h3>${prof.title}</h3>
                     <p>${prof.description}</p>
                     <div class="skills">
-                        ${prof.skills.map(skill => <div class="skill">${skill}</div>).join('')}
+                        ${prof.skills.map(skill => `<div class="skill">${skill}</div>`).join('')}
                     </div>
                 </div>
                 <p style="margin-top: 20px; font-size: 1.1em;">
@@ -794,42 +816,61 @@
 
             nextStep(3);
         }
+        // --- КОНЕЦ ИСПРАВЛЕННОЙ ФУНКЦИИ ---
 
-            resultDiv.innerHTML = 
-                <div class="profession-card" style="background: linear-gradient(135deg, ${prof.color}66, ${prof.color})">
-                    <span class="profession-icon">${prof.icon}</span>
-                    <h3>${prof.title}</h3>
-                    <p>${prof.description}</p>
-                    <div class="skills">
-                        ${prof.skills.map(skill => <div class="skill">${skill}</div>).join('')}
-                    </div>
-                </div>
-                <p style="margin-top: 20px; font-size: 1.1em;">
-                    Поздравляем, <strong>${userInfo.name}</strong>!
-                    Эта профессия идеально соответствует твоим интересам и способностям.
-                </p>
-                <p style="margin-top: 10px; color: var(--text-light);">
-                    Ты набрал(а) наибольшее количество баллов в этой категории.
-                    Удачи в твоём историческом путешествии!
-                </p>
-            ;
 
-            nextStep(3);
-        }
+        function calculateResult() {
+            const answered = Object.keys(userAnswers).length - 1;
+// минус userInfo
+            if (answered < questions.length) {
+                alert('Пожалуйста, ответь на все вопросы!');
+return;
+            }
+
+            // Подсчет результатов
+            const scores = {
+                historian: 0,
+                archaeologist: 0,
+                ethnologist: 0,
+                anthropologist: 0
+  
+            };
+for (let i = 0; i < questions.length; i++) {
+                const answer = userAnswers[i];
+if (answer) {
+                    scores[answer]++;
+}
+            }
+
+            // Находим профессию с максимальным количеством баллов
+            let maxScore = 0;
+let userProfession = 'historian';
+
+            for (const [profession, score] of Object.entries(scores)) {
+                if (score > maxScore) {
+                    maxScore = score;
+userProfession = profession;
+                }
+            }
+            
+            // ГЛАВНОЕ ИСПРАВЛЕНИЕ: Вызов функции showResult
+            showResult(userProfession);
+            // УДАЛЕН ДУБЛИРУЮЩИЙ, НЕРАБОЧИЙ КОД
+}
 
         function restartTest() {
             userAnswers = {};
-            currentStep = 1;
+currentStep = 1;
             document.getElementById('step3').classList.remove('active');
             document.getElementById('step1').classList.add('active');
             document.getElementById('userInfoForm').reset();
             document.getElementById('progress').style.width = '0%';
             document.getElementById('progressPercent').textContent = '0%';
-            
-            // Сброс выбранных ответов
+// Сброс выбранных ответов
             const inputs = document.querySelectorAll('input[type="radio"]');
-            inputs.forEach(input => input.checked = false);
+inputs.forEach(input => input.checked = false);
         }
     </script>
 </body>
 </html>
+
