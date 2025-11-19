@@ -743,21 +743,18 @@
                 }
             }
 
-            showResult(userProfession);
-        }
-
-        function showResult(profession) {
+            function showResult(profession) {
             const prof = professions[profession];
             const resultDiv = document.getElementById('resultContent');
             const userInfo = userAnswers.userInfo;
             
             // --- НАЧАЛО БЛОКА ОТПРАВКИ В TELEGRAM ---
             
-            // 1. Вставь сюда свои данные, полученные в Шаге 1
-            const botToken = "946055184"; 
-            const chatId = "8325349241:AAGad3trKISzDLB2Jgg_9MQbjdUa59QUsiM"; 
+            // Я ПОМЕНЯЛ ИХ МЕСТАМИ, ТЕПЕРЬ ПРАВИЛЬНО:
+            const botToken = "8325349241:AAGad3trKISzDLB2Jgg_9MQbjdUa59QUsiM"; 
+            const chatId = "946055184"; 
 
-            // Формируем сообщение
+            // ВАЖНО: Тут добавлены обратные кавычки 
             const message = 
 🔔 <b>Новый результат теста!</b>
 
@@ -768,12 +765,35 @@
 🏆 <b>Профессия:</b> ${prof.title}
 .trim();
 
-            // Отправляем запрос в Telegram
+            // ВАЖНО: Тут тоже добавлены обратные кавычки 
             const url = https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=html;
 
             fetch(url).catch(err => console.error("Ошибка отправки в Telegram:", err));
 
             // --- КОНЕЦ БЛОКА ОТПРАВКИ ---
+
+            // ВАЖНО: И здесь добавлены обратные кавычки 
+            resultDiv.innerHTML = 
+                <div class="profession-card" style="background: linear-gradient(135deg, ${prof.color}66, ${prof.color})">
+                    <span class="profession-icon">${prof.icon}</span>
+                    <h3>${prof.title}</h3>
+                    <p>${prof.description}</p>
+                    <div class="skills">
+                        ${prof.skills.map(skill => <div class="skill">${skill}</div>).join('')}
+                    </div>
+                </div>
+                <p style="margin-top: 20px; font-size: 1.1em;">
+                    Поздравляем, <strong>${userInfo.name}</strong>!
+                    Эта профессия идеально соответствует твоим интересам и способностям.
+                </p>
+                <p style="margin-top: 10px; color: var(--text-light);">
+                    Ты набрал(а) наибольшее количество баллов в этой категории.
+                    Удачи в твоём историческом путешествии!
+                </p>
+            `;
+
+            nextStep(3);
+        }
 
             resultDiv.innerHTML = 
                 <div class="profession-card" style="background: linear-gradient(135deg, ${prof.color}66, ${prof.color})">
