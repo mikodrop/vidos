@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeCraft AI - Test Mode</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #121212;
+            color: #fff;
+            padding: 20px;
+        }
+        .debug {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .status {
+            color: #4ade80;
+            margin-bottom: 10px;
+        }
+        .error {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .toggle-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #1e1e1e;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        button:disabled {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug" id="debug">
+        <div class="status">🔍 Debug Console</div>
+        <div id="log"></div>
+    </div>
+
+    <form id="testForm">
+        <div class="form-group">
+            <label>Название трека</label>
+            <input type="text" id="title" value="Test Track" required>
+        </div>
+
+        <div class="form-group">
+            <label>Стиль</label>
+            <input type="text" id="style" value="Rock" required>
+        </div>
+
+        <div class="toggle-group">
+            <label>Инструментал</label>
+            <input type="checkbox" id="instrumental">
+        </div>
+
+        <div class="form-group" id="vocalFields">
+            <label>Тема песни</label>
+            <textarea id="topic">О лете и приключениях</textarea>
+        </div>
+
+        <div class="toggle-group">
+            <label>✨ Magic Prompt</label>
+            <input type="checkbox" id="magic">
+        </div>
+
+        <button type="submit" id="submitBtn">🎨 Отправить данные</button>
+    </form>
+
+    <script>
+        const log = document.getElementById('log');
+        const form = document.getElementById('testForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const instrumentalToggle = document.getElementById('instrumental');
+        const vocalFields = document.getElementById('vocalFields');
+
+        // Функция логирования
+        function addLog(message, isError = false) {
+            const time = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = isError ? 'error' : 'status';
+            div.textContent = `[${time}] ${message}`;
+            log.appendChild(div);
+            log.scrollTop = log.scrollHeight;
+            console.log(message);
+        }
+
+        // Проверка Telegram WebApp
+        addLog('Инициализация...');
+        
+        try {
+            if (typeof Telegram === 'undefined') {
+                addLog('❌ Telegram WebApp SDK не загружен!', true);
+            } else {
+                addLog('✅ Telegram SDK загружен');
+                
+                const tg = window.Telegram.WebApp;
+                addLog(`Platform: ${tg.platform}`);
+                addLog(`Version: ${tg.version}`);
+                addLog(`User ID: ${tg.initDataUnsafe?.user?.id || 'unknown'}`);
+                
+                tg.ready();
+                tg.expand();
+                addLog('✅ WebApp готов');
+
+                // Переключатель инструментал
+                instrumentalToggle.addEventListener('change', () => {
+                    vocalFields.style.display = instrumentalToggle.checked ? 'none' : 'block';
+                });
+
+                // Отправка формы
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    addLog('📤 Начало отправки...');
+
+                    const formData = {
+                        title: document.getElementById('title').value.trim(),
+                        style: document.getElementById('style').value.trim(),
+                        is_instrumental: instrumentalToggle.checked,
+                        use_magic: document.getElementById('magic').checked,
+                        topic: instrumentalToggle.checked ? document.getElementById('title').value.trim() : document.getElementById('topic').value.trim(),
+                        lyrics: ''
+                    };
+
+                    addLog('📦 Собранные данные:');
+                    addLog(JSON.stringify(formData, null, 2));
+
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '⏳ Отправка...';
+
+                    try {
+                        const dataString = JSON.stringify(formData);
+                        addLog(`📏 Размер данных: ${dataString.length} байт`);
+
+                        if (dataString.length > 65536) {
+                            throw new Error('Данные превышают лимит 64KB');
+                        }
+
+                        addLog('🚀 Вызов tg.sendData()...');
+                        tg.sendData(dataString);
+                        addLog('✅ sendData() вызван успешно');
+
+                        setTimeout(() => {
+                            addLog('🔄 Закрытие WebApp...');
+                            tg.close();
+                        }, 500);
+
+                    } catch (error) {
+                        addLog(`❌ Ошибка: ${error.message}`, true);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '🎨 Отправить данные';
+                    }
+                });
+
+                // Обработчик успешной отправки
+                tg.onEvent('webAppDataSent', () => {
+                    addLog('✅ Событие webAppDataSent получено!');
+                });
+
+                // Показываем кнопку "Назад"
+                tg.BackButton.onClick(() => {
+                    addLog('🔙 Нажата кнопка Назад');
+                    tg.close();
+                });
+                tg.BackButton.show();
+            }
+        } catch (error) {
+            addLog(`❌ Критическая ошибка: ${error.message}`, true);
+            console.error(error);
+        }
+    </script>
+</body>
+</html>
