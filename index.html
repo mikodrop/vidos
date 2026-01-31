@@ -3,591 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeCraft AI - Создание музыки</title>
+    <title>VibeCraft AI - Test Mode</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #121212;
-            color: #ffffff;
+            color: #fff;
             padding: 20px;
-            padding-bottom: 100px;
-            min-height: 100vh;
         }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #9ca3af;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #e5e7eb;
-            margin-bottom: 8px;
-        }
-
-        .required {
-            color: #ef4444;
-        }
-
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 14px 16px;
+        .debug {
             background: #1e1e1e;
-            border: 2px solid #2d2d2d;
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: inherit;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
         }
-
-        input[type="text"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #8b5cf6;
-            background: #252525;
+        .status {
+            color: #4ade80;
+            margin-bottom: 10px;
         }
-
+        .error {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+        }
         textarea {
-            resize: vertical;
             min-height: 100px;
+            resize: vertical;
         }
-
-        /* Быстрые кнопки стилей */
-        .chips-container {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-
-        .chip {
-            padding: 8px 16px;
-            background: #2d2d2d;
-            border: 2px solid #3d3d3d;
-            border-radius: 20px;
-            color: #ffffff;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            user-select: none;
-        }
-
-        .chip:hover {
-            background: #3d3d3d;
-            border-color: #8b5cf6;
-        }
-
-        .chip:active {
-            transform: scale(0.95);
-        }
-
-        /* Toggle переключатель */
-        .toggle-container {
+        .toggle-group {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px;
+            padding: 12px;
             background: #1e1e1e;
-            border-radius: 12px;
-            margin-bottom: 24px;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
-
-        .toggle-label {
-            font-size: 15px;
-            font-weight: 600;
-            color: #e5e7eb;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 52px;
-            height: 28px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #3d3d3d;
-            transition: 0.3s;
-            border-radius: 28px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: 0.3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #8b5cf6;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(24px);
-        }
-
-        /* Золотой переключатель Magic Prompt */
-        .magic-toggle {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            border: 2px solid #fbbf24;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.3);
-        }
-
-        .magic-toggle .toggle-container {
-            background: transparent;
-            padding: 0;
-            margin: 0;
-        }
-
-        .magic-toggle .toggle-label {
-            color: #1e1e1e;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .magic-toggle input:checked + .slider {
-            background-color: #1e1e1e;
-        }
-
-        .magic-toggle .slider {
-            background-color: rgba(30, 30, 30, 0.3);
-        }
-
-        /* Кнопка создания */
-        .submit-btn {
+        button {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             color: white;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-            margin-top: 20px;
         }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn:disabled {
+        button:disabled {
             opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Скрытые поля */
-        .hidden {
-            display: none;
-        }
-
-        /* Подсказки */
-        .hint {
-            font-size: 12px;
-            color: #9ca3af;
-            margin-top: 6px;
-        }
-
-        /* Разделитель */
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #3d3d3d, transparent);
-            margin: 32px 0;
-        }
-
-        /* Анимация появления */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .form-group {
-            animation: fadeIn 0.5s ease;
-        }
-
-        /* Адаптив */
-        @media (max-width: 480px) {
-            body {
-                padding: 16px;
-                padding-bottom: 80px;
-            }
-
-            .header h1 {
-                font-size: 24px;
-            }
-
-            .chips-container {
-                gap: 6px;
-            }
-
-            .chip {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Заголовок -->
-        <div class="header">
-            <h1>🎵 VibeCraft AI</h1>
-            <p>Создайте уникальную музыку с помощью ИИ</p>
-        </div>
-
-        <!-- Форма -->
-        <form id="musicForm">
-            <!-- Название трека -->
-            <div class="form-group">
-                <label for="title">
-                    Название трека <span class="required">*</span>
-                </label>
-                <input 
-                    type="text" 
-                    id="title" 
-                    name="title" 
-                    placeholder="Например: Летняя ночь"
-                    required
-                    maxlength="80"
-                >
-                <div class="hint">До 80 символов</div>
-            </div>
-
-            <!-- Стиль музыки -->
-            <div class="form-group">
-                <label for="style">
-                    Стиль музыки <span class="required">*</span>
-                </label>
-                <input 
-                    type="text" 
-                    id="style" 
-                    name="style" 
-                    placeholder="Например: Pop, Electronic"
-                    required
-                    maxlength="120"
-                >
-                <div class="chips-container">
-                    <div class="chip" data-style="Rock">🎸 Rock</div>
-                    <div class="chip" data-style="Phonk">🔊 Phonk</div>
-                    <div class="chip" data-style="Pop">🎤 Pop</div>
-                    <div class="chip" data-style="Electronic">⚡ Electronic</div>
-                    <div class="chip" data-style="Jazz">🎷 Jazz</div>
-                    <div class="chip" data-style="Hip-Hop">🎧 Hip-Hop</div>
-                </div>
-                <div class="hint">До 120 символов. Можете указать несколько стилей через запятую</div>
-            </div>
-
-            <!-- Переключатель инструментал -->
-            <div class="toggle-container">
-                <label class="toggle-label" for="instrumental">
-                    🎹 Инструментальная композиция
-                </label>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="instrumental" name="instrumental">
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <!-- Поля для вокальной композиции -->
-            <div id="vocalFields">
-                <!-- Тема песни -->
-                <div class="form-group">
-                    <label for="topic">
-                        Тема песни
-                    </label>
-                    <textarea 
-                        id="topic" 
-                        name="topic" 
-                        placeholder="О чем будет песня? Например: о любви на закате, о приключениях в городе..."
-                        maxlength="200"
-                    ></textarea>
-                    <div class="hint">AI создаст текст на основе вашей темы</div>
-                </div>
-
-                <div class="divider"></div>
-
-                <!-- Текст песни -->
-                <div class="form-group">
-                    <label for="lyrics">
-                        Текст песни (необязательно)
-                    </label>
-                    <textarea 
-                        id="lyrics" 
-                        name="lyrics" 
-                        placeholder="Или напишите собственный текст песни..."
-                        rows="6"
-                        maxlength="3000"
-                    ></textarea>
-                    <div class="hint">Если укажете текст, тема будет проигнорирована</div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Magic Prompt (золотой переключатель) -->
-            <div class="magic-toggle">
-                <div class="toggle-container">
-                    <label class="toggle-label" for="magicPrompt">
-                        ✨ Magic Prompt
-                        <span style="font-size: 12px; opacity: 0.8; display: block; margin-top: 4px;">
-                            AI улучшит ваше описание
-                        </span>
-                    </label>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="magicPrompt" name="magicPrompt">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Кнопка отправки -->
-            <button type="submit" class="submit-btn" id="submitBtn">
-                🎨 Создать музыку
-            </button>
-        </form>
+    <div class="debug" id="debug">
+        <div class="status">🔍 Debug Console</div>
+        <div id="log"></div>
     </div>
 
+    <form id="testForm">
+        <div class="form-group">
+            <label>Название трека</label>
+            <input type="text" id="title" value="Test Track" required>
+        </div>
+
+        <div class="form-group">
+            <label>Стиль</label>
+            <input type="text" id="style" value="Rock" required>
+        </div>
+
+        <div class="toggle-group">
+            <label>Инструментал</label>
+            <input type="checkbox" id="instrumental">
+        </div>
+
+        <div class="form-group" id="vocalFields">
+            <label>Тема песни</label>
+            <textarea id="topic">О лете и приключениях</textarea>
+        </div>
+
+        <div class="toggle-group">
+            <label>✨ Magic Prompt</label>
+            <input type="checkbox" id="magic">
+        </div>
+
+        <button type="submit" id="submitBtn">🎨 Отправить данные</button>
+    </form>
+
     <script>
-        // Инициализация Telegram Web App
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
-        // Применяем тему Telegram
-        document.body.style.backgroundColor = tg.backgroundColor || '#121212';
-
-        // Элементы формы
-        const form = document.getElementById('musicForm');
-        const titleInput = document.getElementById('title');
-        const styleInput = document.getElementById('style');
-        const topicInput = document.getElementById('topic');
-        const lyricsInput = document.getElementById('lyrics');
-        const instrumentalToggle = document.getElementById('instrumental');
-        const magicPromptToggle = document.getElementById('magicPrompt');
-        const vocalFields = document.getElementById('vocalFields');
+        const log = document.getElementById('log');
+        const form = document.getElementById('testForm');
         const submitBtn = document.getElementById('submitBtn');
+        const instrumentalToggle = document.getElementById('instrumental');
+        const vocalFields = document.getElementById('vocalFields');
 
-        // Быстрые кнопки стилей
-        const chips = document.querySelectorAll('.chip');
-        chips.forEach(chip => {
-            chip.addEventListener('click', () => {
-                const style = chip.getAttribute('data-style');
-                const currentStyle = styleInput.value.trim();
-                
-                if (currentStyle === '') {
-                    styleInput.value = style;
-                } else if (!currentStyle.includes(style)) {
-                    styleInput.value = currentStyle + ', ' + style;
-                }
-                
-                // Визуальная обратная связь
-                chip.style.background = '#8b5cf6';
-                setTimeout(() => {
-                    chip.style.background = '#2d2d2d';
-                }, 200);
-            });
-        });
-
-        // Переключатель инструментал - скрывает/показывает поля текста
-        instrumentalToggle.addEventListener('change', () => {
-            if (instrumentalToggle.checked) {
-                vocalFields.classList.add('hidden');
-                topicInput.value = '';
-                lyricsInput.value = '';
-            } else {
-                vocalFields.classList.remove('hidden');
-            }
-        });
-
-        // Обработка отправки формы
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            // Валидация
-            if (!titleInput.value.trim()) {
-                tg.showAlert('Пожалуйста, укажите название трека');
-                return;
-            }
-
-            if (!styleInput.value.trim()) {
-                tg.showAlert('Пожалуйста, укажите стиль музыки');
-                return;
-            }
-
-            // Собираем данные
-            const formData = {
-                title: titleInput.value.trim(),
-                style: styleInput.value.trim(),
-                is_instrumental: instrumentalToggle.checked,
-                use_magic: magicPromptToggle.checked
-            };
-
-            // Если не инструментал
-            if (!instrumentalToggle.checked) {
-                const lyrics = lyricsInput.value.trim();
-                const topic = topicInput.value.trim();
-
-                if (lyrics) {
-                    // Если есть текст песни - используем его
-                    formData.lyrics = lyrics;
-                    formData.topic = '';
-                } else if (topic) {
-                    // Если есть тема - используем её
-                    formData.topic = topic;
-                    formData.lyrics = '';
-                } else {
-                    // Если ничего не указано
-                    tg.showAlert('Пожалуйста, укажите тему песни или текст');
-                    return;
-                }
-            } else {
-                // Для инструментала используем название как описание
-                formData.topic = titleInput.value.trim();
-                formData.lyrics = '';
-            }
-
-            // Отключаем кнопку
-            submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Отправка...';
-
-            // Отправляем данные боту
-            try {
-                tg.sendData(JSON.stringify(formData));
-            } catch (error) {
-                console.error('Ошибка отправки данных:', error);
-                tg.showAlert('Ошибка отправки данных. Попробуйте еще раз.');
-                submitBtn.disabled = false;
-                submitBtn.textContent = '🎨 Создать музыку';
-            }
-        });
-
-        // Автозакрытие при успешной отправке
-        tg.onEvent('webAppDataSent', () => {
-            tg.close();
-        });
-
-        // Обработка кнопки "Назад" в Telegram
-        tg.BackButton.onClick(() => {
-            tg.close();
-        });
-        tg.BackButton.show();
-
-        // Установка главной кнопки Telegram (альтернативный способ отправки)
-        tg.MainButton.setText('🎨 Создать музыку');
-        tg.MainButton.onClick(() => {
-            form.requestSubmit();
-        });
-        
-        // Показываем главную кнопку когда форма заполнена
-        function checkFormValidity() {
-            const isValid = titleInput.value.trim() && styleInput.value.trim();
-            if (isValid) {
-                tg.MainButton.show();
-            } else {
-                tg.MainButton.hide();
-            }
+        // Функция логирования
+        function addLog(message, isError = false) {
+            const time = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = isError ? 'error' : 'status';
+            div.textContent = `[${time}] ${message}`;
+            log.appendChild(div);
+            log.scrollTop = log.scrollHeight;
+            console.log(message);
         }
 
-        titleInput.addEventListener('input', checkFormValidity);
-        styleInput.addEventListener('input', checkFormValidity);
+        // Проверка Telegram WebApp
+        addLog('Инициализация...');
         
-        // Начальная проверка
-        checkFormValidity();
+        try {
+            if (typeof Telegram === 'undefined') {
+                addLog('❌ Telegram WebApp SDK не загружен!', true);
+            } else {
+                addLog('✅ Telegram SDK загружен');
+                
+                const tg = window.Telegram.WebApp;
+                addLog(`Platform: ${tg.platform}`);
+                addLog(`Version: ${tg.version}`);
+                addLog(`User ID: ${tg.initDataUnsafe?.user?.id || 'unknown'}`);
+                
+                tg.ready();
+                tg.expand();
+                addLog('✅ WebApp готов');
 
-        // Haptic feedback при взаимодействии
-        chips.forEach(chip => {
-            chip.addEventListener('click', () => {
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.impactOccurred('light');
-                }
-            });
-        });
+                // Переключатель инструментал
+                instrumentalToggle.addEventListener('change', () => {
+                    vocalFields.style.display = instrumentalToggle.checked ? 'none' : 'block';
+                });
 
-        instrumentalToggle.addEventListener('change', () => {
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('medium');
+                // Отправка формы
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    addLog('📤 Начало отправки...');
+
+                    const formData = {
+                        title: document.getElementById('title').value.trim(),
+                        style: document.getElementById('style').value.trim(),
+                        is_instrumental: instrumentalToggle.checked,
+                        use_magic: document.getElementById('magic').checked,
+                        topic: instrumentalToggle.checked ? document.getElementById('title').value.trim() : document.getElementById('topic').value.trim(),
+                        lyrics: ''
+                    };
+
+                    addLog('📦 Собранные данные:');
+                    addLog(JSON.stringify(formData, null, 2));
+
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '⏳ Отправка...';
+
+                    try {
+                        const dataString = JSON.stringify(formData);
+                        addLog(`📏 Размер данных: ${dataString.length} байт`);
+
+                        if (dataString.length > 65536) {
+                            throw new Error('Данные превышают лимит 64KB');
+                        }
+
+                        addLog('🚀 Вызов tg.sendData()...');
+                        tg.sendData(dataString);
+                        addLog('✅ sendData() вызван успешно');
+
+                        setTimeout(() => {
+                            addLog('🔄 Закрытие WebApp...');
+                            tg.close();
+                        }, 500);
+
+                    } catch (error) {
+                        addLog(`❌ Ошибка: ${error.message}`, true);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '🎨 Отправить данные';
+                    }
+                });
+
+                // Обработчик успешной отправки
+                tg.onEvent('webAppDataSent', () => {
+                    addLog('✅ Событие webAppDataSent получено!');
+                });
+
+                // Показываем кнопку "Назад"
+                tg.BackButton.onClick(() => {
+                    addLog('🔙 Нажата кнопка Назад');
+                    tg.close();
+                });
+                tg.BackButton.show();
             }
-        });
-
-        magicPromptToggle.addEventListener('change', () => {
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('medium');
-            }
-        });
-
-        // Логирование для отладки
-        console.log('VibeCraft AI Web App initialized');
-        console.log('Telegram WebApp version:', tg.version);
-        console.log('Platform:', tg.platform);
+        } catch (error) {
+            addLog(`❌ Критическая ошибка: ${error.message}`, true);
+            console.error(error);
+        }
     </script>
 </body>
 </html>
